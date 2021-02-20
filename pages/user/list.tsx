@@ -52,6 +52,7 @@ const Index = () => {
 
   return (
     <div className="container">
+
       <h1>user list</h1>
       <ul>
         {users.map((user) => (
@@ -62,7 +63,6 @@ const Index = () => {
           </li>
         ))}
       </ul>
-
       <input type="text" onChange={handleUserNameChange} />
 
       <Button type="primary" onClick={handleAddUser}>

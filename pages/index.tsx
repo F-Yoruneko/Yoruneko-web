@@ -9,7 +9,10 @@ type User = {
 const Index = () => {
   return (
     <div className="container">
-      <h1>Pages</h1>
+      <Link href="/form/register">
+        <h1>Pages</h1>
+      </Link>
+
       <ul>
         <Link href="/user/list">
           <a>user</a>
