@@ -77,9 +77,10 @@ const Index = () => {
       const subjectList = user.subjects.map((item) => item);
       const subjects = [];
       for (const sub of subjectList) {
-        const data = await sub.get();
+        const data = await sub.subject.get();
         subjects.push({
           ...data.data(),
+          evaluated: sub.evaluated,
           id: data.id,
         });
       }
@@ -124,7 +125,7 @@ const Index = () => {
   console.log(mySubjects);
 
   // 評価をfirebaseに登録する
-  const handleAddEvaluation = (e) => {
+  const handleAddEvaluation = async (e) => {
 
     // firestoreにuserを登録
     const addEvaluationSubjectId = e.target.id;
@@ -132,6 +133,14 @@ const Index = () => {
     console.log(addEvaluationSubjectId)
     console.log(addEvaluationType)
     e.target.disabled = true;
+    // const subjects = user.data()?.subjects ?? [];
+    // const updateSubjects = subjects.map((x) => ({
+    //   subject: x.subject,
+    //   evaluated: (await x.subject.get()).data().id == addEvaluationSubjectId ? true : false
+    // }));
+    // firestore.collection('user').doc(userId).update({
+    //   subjects: updateSubjects
+    // });
     firestore.collection('subject').doc(addEvaluationSubjectId).get().then(function(doc) {
       if (doc.exists) {
           console.log("Document data:", doc.data());
@@ -197,6 +206,7 @@ const Index = () => {
                   value = "easy"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   楽単{' '}
@@ -207,6 +217,7 @@ const Index = () => {
                   value = "difficult"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   難しい{' '}
@@ -217,6 +228,7 @@ const Index = () => {
                   value = "interesting"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   面白い{' '}
@@ -227,6 +239,7 @@ const Index = () => {
                   value = "boring"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   つまらない{' '}
