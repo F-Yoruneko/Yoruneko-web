@@ -124,18 +124,41 @@ const Index = () => {
   console.log(mySubjects);
 
   // 評価をfirebaseに登録する
-  const handleAddEasy = (e) => {
+  const handleAddEvaluation = (e) => {
 
     // firestoreにuserを登録
-    const addEasySubjectId = e.target.id;
+    const addEvaluationSubjectId = e.target.id;
+    const addEvaluationType = e.target.value;
+    console.log(addEvaluationSubjectId)
+    console.log(addEvaluationType)
     e.target.disabled = true;
-    console.log(addEasySubjectId)
-    firestore.collection('subject').doc(addEasySubjectId).get().then(function(doc) {
+    firestore.collection('subject').doc(addEvaluationSubjectId).get().then(function(doc) {
       if (doc.exists) {
           console.log("Document data:", doc.data());
-          firestore.collection('subject').doc(addEasySubjectId).update({
-            easy: doc.data().easy + 1
-          } as mySubjects);
+          switch (addEvaluationType) {
+            case "easy":
+              firestore.collection('subject').doc(addEvaluationSubjectId).update({
+                easy: doc.data().easy + 1
+              } as mySubjects);
+              break;
+            case "difficult":
+              firestore.collection('subject').doc(addEvaluationSubjectId).update({
+                difficult: doc.data().difficult + 1
+              } as mySubjects);
+              break;
+            case "interesting":
+              firestore.collection('subject').doc(addEvaluationSubjectId).update({
+                interesting: doc.data().interesting + 1
+              } as mySubjects);
+              break;
+            case "boring":
+              firestore.collection('subject').doc(addEvaluationSubjectId).update({
+                boring: doc.data().boring + 1
+              } as mySubjects);
+              break;
+            default:
+              break;
+          }
       } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -151,7 +174,9 @@ const Index = () => {
           <tr>
             <th>#</th>
             <th>科目名</th>
-            <th>取得単位数</th>
+            <th>教員</th>
+            <th>ターム</th>
+            <th>単位数</th>
             <th>LINEチャット URL</th>
             <th>履修評価</th>
           </tr>
@@ -160,22 +185,51 @@ const Index = () => {
           {mySubjects.map((mySubject, index) => (
             <tr key={mySubject.id}>
               <td>{index + 1}</td>
-              <td key={mySubject.id}>
-                <Link href={`/user/${mySubject.id}`}>
-                  <a>{mySubject.name}</a>
-                </Link>
-              </td>
+              <td>{mySubject.name}</td>
+              <td>{mySubject.professor}</td>
+              <td>{mySubject.term}</td>
               <td>{mySubject.credit}</td>
               <td>{mySubject.url}</td>
               <td>
-                <p className="creditValue"> {mySubject.easy} </p>{' '}
+                <p className="creaditValue"> {mySubject.easy} </p>{' '}
                 <Button
                   id={mySubject.id}
+                  value = "easy"
                   className="btn-sm btn-primary inline-block"
-                  onClick = {handleAddEasy}
+                  onClick = {handleAddEvaluation}
                 >
                   {' '}
                   楽単{' '}
+                </Button>
+                <p className="creaditValue"> {mySubject.difficult} </p>{' '}
+                <Button
+                  id={mySubject.id}
+                  value = "difficult"
+                  className="btn-sm btn-primary inline-block"
+                  onClick = {handleAddEvaluation}
+                >
+                  {' '}
+                  難しい{' '}
+                </Button>
+                <p className="creaditValue"> {mySubject.interesting} </p>{' '}
+                <Button
+                  id={mySubject.id}
+                  value = "interesting"
+                  className="btn-sm btn-primary inline-block"
+                  onClick = {handleAddEvaluation}
+                >
+                  {' '}
+                  面白い{' '}
+                </Button>
+                <p className="creaditValue"> {mySubject.boring} </p>{' '}
+                <Button
+                  id={mySubject.id}
+                  value = "boring"
+                  className="btn-sm btn-primary inline-block"
+                  onClick = {handleAddEvaluation}
+                >
+                  {' '}
+                  つまらない{' '}
                 </Button>
               </td>
             </tr>
