@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { firestore } from '@/lib/firebase';
 
-type User = {
+type Subject = {
   id?: string;
   name: string;
 };
@@ -12,37 +12,37 @@ type User = {
 const Index = () => {
   // router
   const { query } = useRouter();
-  const userId = query.userId;
+  const subjectId = query.subjectId;
 
-  // user情報
-  const [user, setUser] = useState<User | undefined>();
+  // subject情報
+  const [subject, setSubject] = useState<Subject | undefined>();
 
-  // usersに変更があるごとに実行される
+  // subjectsに変更があるごとに実行される
   useEffect(() => {
-    console.log(user);
-  }, [userId]);
+    console.log(subject);
+  }, [subjectId]);
 
   // init
   useEffect(() => {
-    firestore.collection('user').onSnapshot((collection) => {
+    firestore.collection('subject').onSnapshot((collection) => {
       const data = collection.docs
-        // userIdの一致する情報のみにフィルタリング
-        .filter((doc) => doc.id === userId)
+        // subjectIdの一致する情報のみにフィルタリング
+        .filter((doc) => doc.id === subjectId)
         .map((doc) => ({
           id: doc.id,
           name: doc.data().name || '',
         }));
       // マッチしたものが1件取れればいいので配列の0番目のみ取得
-      setUser(data[0]);
+      setSubject(data[0]);
     });
   }, []);
 
   return (
     <div className="container">
-      <h1>{user?.name || ''}</h1>
+      <h1>{subject?.name || ''}</h1>
 
-      <Link href="/user/list">
-        <a>user listへ</a>
+      <Link href="/user/slist">
+        <a>subject listへ</a>
       </Link>
 
       <style jsx>{``}</style>
