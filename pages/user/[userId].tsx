@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Button, Table } from "react-bootstrap";
+import { Button, Table } from 'react-bootstrap';
 import { firestore } from '@/lib/firebase';
 
 interface Subject {
+  id: string;
   boring: number;
   credit: number;
   difficult: number;
@@ -23,7 +24,7 @@ interface User {
   name: string;
   university: string;
   subjects: any[];
-};
+}
 
 interface mySubjects {
   id?: string;
@@ -39,12 +40,11 @@ const Index = () => {
   const { query } = useRouter();
   const userId = query.userId;
 
-
   // user情報
   const [user, setUser] = useState<User | undefined>();
 
   //履修情報
-  const [mySubjects, setMySubjects] = useState<mySubjects[]>([]);
+  const [mySubjects, setMySubjects] = useState<Subject[]>([]);
 
   // //init
   // useEffect(() => {
@@ -60,7 +60,7 @@ const Index = () => {
   // useEffect(() => {
   //   firestore.collection('mySubjects').onSnapshot((collection) => {
   //     const data = collection.docs
-  //       .filter((doc) => doc.data().accountId === userId) 
+  //       .filter((doc) => doc.data().accountId === userId)
   //       .map((doc) => ({
   //       id: doc.id,
   //       name: doc.data().name || '',
@@ -71,60 +71,45 @@ const Index = () => {
   //   });
   // }, []);
 
-const hoge = {
-  boring: 0,
-  credit: 1,
-  difficult: 0,
-  easy: 0,
-  faculty: '理工学部',
-  interesting: 0,
-  name: '微分積分',
-  professor: '佐藤明',
-  term: '春',
-  university: 'A大学',
-  url:
-    'https://line.me/ti/g2/MbhKvwL0KJnc7WrqAG8Vmw?utm_source=invitation&utm_medium=link_copy&utm_campaign=default',
-};
+  const getSubjects = async () => {
+    if (user) {
+      console.log(user);
+      const subjectList = user.subjects.map((item) => item);
+      const subjects = [];
+      for (const sub of subjectList) {
+        const data = await sub.get();
+        subjects.push({
+          ...data.data(),
+          id: data.id,
+        });
+      }
+      setMySubjects(subjects);
+    }
+  };
 
   useEffect(() => {
-    // firestore.collection('subject').onSnapshot((collection) => {
-      //   const docs = collection.docs.map((doc) => doc);
-      
-      //   firestore.collection('user').add({
-        //     name: "demoName",
-        //     university: "demoUniversity",
-        //     subjects: docs.map(doc => {subject: doc.ref}),
-        //   })
-        // });
-        
-    if (user) {
-      console.log(user)
-      const subjectList = user?.subjects.map(item => item.subject);
-      console.log(subjectList);
-      // console.log(subjectList?.map(item => item.get()))
-    }
+    getSubjects();
   }, [user]);
-  
 
   // init ユーザー情報
   useEffect(() => {
     if (userId) {
       firestore.collection('user').onSnapshot((collection) => {
-        console.log(userId)
+        console.log(userId);
         const data = collection.docs
           // userIdの一致する情報のみにフィルタリング
           .filter((doc) => doc.id === userId)
           .map((doc) => {
-            console.log(doc.data())
+            console.log(doc.data());
             return {
               id: doc.id,
               name: doc.data().name || '',
               university: doc.data().university,
-              subjects: doc.data().subjects || []
-            }
+              subjects: doc.data().subjects || [],
+            };
           });
         // マッチしたものが1件取れればいいので配列の0番目のみ取得
-        console.log("init user")
+        console.log('init user');
         setUser(data[0]);
       });
     }
@@ -132,16 +117,15 @@ const hoge = {
 
   console.log(user);
 
-  useEffect(() =>  {
-    const userRef = firestore.collection("user");
+  useEffect(() => {
+    const userRef = firestore.collection('user');
     console.log(userRef);
-
-  })
+  });
   console.log(mySubjects);
 
   // // 評価をfirebaseに登録する
   // const handleAddGood = (e) => {
-    
+
   //   // firestoreにuserを登録
   //   const addGoodmySubjectsId = e.target.id;
   //   console.log(addGoodmySubjectsId)
@@ -160,37 +144,37 @@ const hoge = {
 
   return (
     <div className="container">
-      
       <h1>{user?.name || ''}の履修履歴</h1>
       <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>科目名</th>
-          <th>取得単位数</th>
-          <th>slack URL</th>
-          <th>履修評価</th>
-        </tr>
-      </thead>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>科目名</th>
+            <th>取得単位数</th>
+            <th>slack URL</th>
+            <th>履修評価</th>
+          </tr>
+        </thead>
         <tbody>
           {mySubjects.map((mySubject, index) => (
-            <tr>
-              <td key={index+1}>
-                {index+1}
-              </td>
+            <tr key={mySubject.id}>
+              <td>{index + 1}</td>
               <td key={mySubject.id}>
                 <Link href={`/user/${mySubject.id}`}>
                   <a>{mySubject.name}</a>
                 </Link>
               </td>
+              <td>1.0</td>
+              <td>https://slack.com</td>
               <td>
-                1.0
-              </td> 
-              <td>
-                https://slack.com
-              </td>
-              <td>
-                <p className="creaditValue" > {mySubject.interesting} </p> <Button id={mySubject.id} className="btn-sm btn-primary inline-block"> いいね </Button>
+                <p className="creaditValue"> {mySubject.interesting} </p>{' '}
+                <Button
+                  id={mySubject.id}
+                  className="btn-sm btn-primary inline-block"
+                >
+                  {' '}
+                  いいね{' '}
+                </Button>
               </td>
             </tr>
           ))}
@@ -202,8 +186,8 @@ const hoge = {
       </Link>
 
       <style jsx>{`
-        .creaditValue{
-          display: inline-block
+        .creaditValue {
+          display: inline-block;
         }
       `}</style>
     </div>
