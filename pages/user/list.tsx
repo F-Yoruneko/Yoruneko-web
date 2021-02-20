@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 
 import { firestore } from '@/lib/firebase';
 
@@ -64,7 +65,9 @@ const Index = () => {
 
       <input type="text" onChange={handleUserNameChange} />
 
-      <button onClick={handleAddUser}>add user</button>
+      <Button type="primary" onClick={handleAddUser}>
+        add user
+      </Button>
 
       <style jsx>{``}</style>
     </div>
