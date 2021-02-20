@@ -183,8 +183,8 @@ const Index = () => {
         </tbody>
       </Table>
 
-      <Link href="/user/list">
-        <a>user listへ</a>
+      <Link href="/subject">
+        <a>科目一覧へ</a>
       </Link>
 
       <style jsx>{`
