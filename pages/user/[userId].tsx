@@ -77,9 +77,10 @@ const Index = () => {
       const subjectList = user.subjects.map((item) => item);
       const subjects = [];
       for (const sub of subjectList) {
-        const data = await sub.get();
+        const data = await sub.subject.get();
         subjects.push({
           ...data.data(),
+          evaluated: sub.evaluated,
           id: data.id,
         });
       }
@@ -124,7 +125,7 @@ const Index = () => {
   console.log(mySubjects);
 
   // 評価をfirebaseに登録する
-  const handleAddEvaluation = (e) => {
+  const handleAddEvaluation = async (e) => {
 
     // firestoreにuserを登録
     const addEvaluationSubjectId = e.target.id;
@@ -132,6 +133,14 @@ const Index = () => {
     console.log(addEvaluationSubjectId)
     console.log(addEvaluationType)
     e.target.disabled = true;
+    // const subjects = user.data()?.subjects ?? [];
+    // const updateSubjects = subjects.map((x) => ({
+    //   subject: x.subject,
+    //   evaluated: (await x.subject.get()).data().id == addEvaluationSubjectId ? true : false
+    // }));
+    // firestore.collection('user').doc(userId).update({
+    //   subjects: updateSubjects
+    // });
     firestore.collection('subject').doc(addEvaluationSubjectId).get().then(function(doc) {
       if (doc.exists) {
           console.log("Document data:", doc.data());
@@ -191,42 +200,46 @@ const Index = () => {
               <td>{mySubject.credit}</td>
               <td>{mySubject.url}</td>
               <td>
-                <p className="creaditValue"> {mySubject.easy} </p>{' '}
+                <p className="evaluate"> {mySubject.easy} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "easy"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   楽単{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.difficult} </p>{' '}
+                <p className="evaluate"> {mySubject.difficult} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "difficult"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   難しい{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.interesting} </p>{' '}
+                <p className="evaluate"> {mySubject.interesting} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "interesting"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   面白い{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.boring} </p>{' '}
+                <p className="evaluate"> {mySubject.boring} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "boring"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
+                  disabled = {mySubject.evaluated}
                 >
                   {' '}
                   つまらない{' '}

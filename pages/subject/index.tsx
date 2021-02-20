@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Form, Button, ArrowRight} from 'react-bootstrap';
 import { useRouter } from 'next/router';
-
+import Link from 'next/link';
 import { firestore } from '@/lib/firebase';
 
 const userId = '086Y37hyXB70txgcKaKh';
@@ -21,6 +21,8 @@ type Subject = {
   term: string;
   credits:number;
 };
+
+var _ = require('lodash');
 
 const Index = () => {
   const { push } = useRouter();
@@ -48,17 +50,13 @@ const Index = () => {
       const user = await userRef.get();
       const subjects = user.data()?.subjects ?? [];
       const updateSubjects = subjectIds.map((x) => ({
-        evaluation:
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          subjects.find((y) => y.subject.id === x)?.evaluation ?? null,
         subject: firestore.collection('subject').doc(x),
+        evaluated: false
       }));
       await userRef.update({
-        subjects: updateSubjects,
+        subjects: _.union(subjects, updateSubjects),
       });
-      // TODO : マイページに遷移
-      push('/');
+      console.log(updateSubjects);
     } catch (error) {
       console.log(error);
     }
@@ -155,9 +153,12 @@ const Index = () => {
             ))}
           </tbody>
         </Table>
-        <Button variant="primary" onClick={handleUpdateSubject}>
-          登録
-        </Button>
+        <Link href="/user/086Y37hyXB70txgcKaKh">
+          <Button variant="primary" onClick={handleUpdateSubject}>
+            登録
+          </Button>
+        </Link>
+        
       </div>
 
       <style jsx>{``}</style>
