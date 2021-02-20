@@ -123,35 +123,36 @@ const Index = () => {
   });
   console.log(mySubjects);
 
-  // // 評価をfirebaseに登録する
-  // const handleAddGood = (e) => {
+  // 評価をfirebaseに登録する
+  const handleAddEasy = (e) => {
 
-  //   // firestoreにuserを登録
-  //   const addGoodmySubjectsId = e.target.id;
-  //   console.log(addGoodmySubjectsId)
-  //   firestore.collection('mySubjects').doc(addGoodmySubjectsId).get().then(function(doc) {
-  //     if (doc.exists) {
-  //         console.log("Document data:", doc.data());
-  //         firestore.collection('mySubjects').doc(addGoodmySubjectsId).update({
-  //           value: doc.data().value + 1
-  //         } as mySubjects);
-  //     } else {
-  //         // doc.data() will be undefined in this case
-  //         console.log("No such document!");
-  //     }
-  //   }
-  // )}
+    // firestoreにuserを登録
+    const addEasySubjectId = e.target.id;
+    e.target.disabled = true;
+    console.log(addEasySubjectId)
+    firestore.collection('subject').doc(addEasySubjectId).get().then(function(doc) {
+      if (doc.exists) {
+          console.log("Document data:", doc.data());
+          firestore.collection('subject').doc(addEasySubjectId).update({
+            easy: doc.data().easy + 1
+          } as mySubjects);
+      } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+    }
+  )}
 
   return (
     <div className="container">
-      <h1>{user?.name || ''}の履修履歴</h1>
+      <h1>{user?.name || ''}のマイページ</h1>
       <Table>
         <thead>
           <tr>
             <th>#</th>
             <th>科目名</th>
             <th>取得単位数</th>
-            <th>slack URL</th>
+            <th>LINEチャット URL</th>
             <th>履修評価</th>
           </tr>
         </thead>
@@ -164,16 +165,17 @@ const Index = () => {
                   <a>{mySubject.name}</a>
                 </Link>
               </td>
-              <td>1.0</td>
-              <td>https://slack.com</td>
+              <td>{mySubject.credit}</td>
+              <td>{mySubject.url}</td>
               <td>
-                <p className="creaditValue"> {mySubject.interesting} </p>{' '}
+                <p className="creditValue"> {mySubject.easy} </p>{' '}
                 <Button
                   id={mySubject.id}
                   className="btn-sm btn-primary inline-block"
+                  onClick = {handleAddEasy}
                 >
                   {' '}
-                  いいね{' '}
+                  楽単{' '}
                 </Button>
               </td>
             </tr>
