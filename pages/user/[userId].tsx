@@ -191,7 +191,7 @@ const Index = () => {
               <td>{mySubject.credit}</td>
               <td>{mySubject.url}</td>
               <td>
-                <p className="creaditValue"> {mySubject.easy} </p>{' '}
+                <p className="evaluate"> {mySubject.easy} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "easy"
@@ -201,7 +201,7 @@ const Index = () => {
                   {' '}
                   楽単{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.difficult} </p>{' '}
+                <p className="evaluate"> {mySubject.difficult} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "difficult"
@@ -211,7 +211,7 @@ const Index = () => {
                   {' '}
                   難しい{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.interesting} </p>{' '}
+                <p className="evaluate"> {mySubject.interesting} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "interesting"
@@ -221,7 +221,7 @@ const Index = () => {
                   {' '}
                   面白い{' '}
                 </Button>
-                <p className="creaditValue"> {mySubject.boring} </p>{' '}
+                <p className="evaluate"> {mySubject.boring} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "boring"
