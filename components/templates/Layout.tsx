@@ -8,7 +8,7 @@ const Layout: React.FC = ({ children }) => {
       <Navbar bg="light" expand="lg">
         <Navbar.Brand>
           <Link href="/">
-            <a>React-Bootstrap</a>
+            <a>Yoruneko Webアプリ</a>
           </Link>
         </Navbar.Brand>
       </Navbar>
