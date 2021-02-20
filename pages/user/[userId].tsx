@@ -17,7 +17,7 @@ const Index = () => {
   // user情報
   const [user, setUser] = useState<User | undefined>();
 
-  // usersに変更があるごとに実行される
+  // usersに変更があるごとに実行される
   useEffect(() => {
     console.log(user);
   }, [userId]);
