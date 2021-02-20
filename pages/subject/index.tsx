@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Form, Button } from 'react-bootstrap';
+import { useRouter } from 'next/router';
 
 import { firestore } from '@/lib/firebase';
+
+const userId = '086Y37hyXB70txgcKaKh';
 
 type Subject = {
   id: string;
@@ -17,6 +20,8 @@ type Subject = {
 };
 
 const Index = () => {
+  const { push } = useRouter();
+
   // subjectの一覧
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
@@ -31,22 +36,26 @@ const Index = () => {
   };
 
   // nameを持ったsubjectオブジェクトをfirebaseに登録する
-  const handleAddSubject = async () => {
-    const userRef = firestore.collection('user').doc('userのreferenceId');
-
-    const user = await userRef.get();
-    const subjects = user.data()?.subjects ?? [];
-    // subjects
-    const updateSubjects = subjectIds.map((x) => ({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      evaluation: subjects.find((y) => y.subject.id === x)?.evaluation,
-      subject: firestore.collection('subject').doc(x),
-    }));
-
-    await userRef.update({
-      subjects: updateSubjects,
-    });
+  const handleUpdateSubject = async () => {
+    try {
+      const userRef = firestore.collection('user').doc(userId);
+      const user = await userRef.get();
+      const subjects = user.data()?.subjects ?? [];
+      const updateSubjects = subjectIds.map((x) => ({
+        evaluation:
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          subjects.find((y) => y.subject.id === x)?.evaluation ?? null,
+        subject: firestore.collection('subject').doc(x),
+      }));
+      await userRef.update({
+        subjects: updateSubjects,
+      });
+      // TODO : マイページに遷移
+      push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // init
@@ -108,7 +117,7 @@ const Index = () => {
             ))}
           </tbody>
         </Table>
-        <Button variant="primary" onClick={handleAddSubject}>
+        <Button variant="primary" onClick={handleUpdateSubject}>
           登録
         </Button>
       </div>
