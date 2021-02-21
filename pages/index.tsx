@@ -74,7 +74,11 @@ const Index = () => {
           <Form.Label>パスワード</Form.Label>
           <Form.Control type="password" name="password" onChange={handleChange} />
         </Form.Group>
-        <Button variant="outline-primary"  type="submit" value="Submit">登録</Button>
+        <Button variant="outline-primary"  type="submit" value="Submit" className="btn-primary text-white" >
+          <Link href="/subject" >
+            <a className="text-white">登録</a>
+          </Link>
+          </Button>
       </Form>
       
       <style jsx>{``}</style>

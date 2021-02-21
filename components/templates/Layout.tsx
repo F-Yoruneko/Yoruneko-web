@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
 import { Container, Navbar } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+
 
 const Layout: React.FC = ({ children }) => {
   return (
@@ -10,7 +13,8 @@ const Layout: React.FC = ({ children }) => {
           <Link href="/">
             <a>Yoruneko Webアプリ</a>
           </Link>
-        </Navbar.Brand>
+        </Navbar.Brand>        
+        <Navbar.Collapse className="justify-content-end"><FontAwesomeIcon icon={faUserCircle} /></Navbar.Collapse>
       </Navbar>
       <Container fluid>
         <div style={{ marginTop: '4rem', padding: '0 50px' }}>
