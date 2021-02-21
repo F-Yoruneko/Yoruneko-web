@@ -10,7 +10,7 @@ const Layout: React.FC = ({ children }) => {
       <Navbar bg="light" expand="lg">
         <Navbar.Brand>
           <Link href="/">
-            <a>Yoruneko Webアプリ</a>
+            <a>Campus Hack</a>
           </Link>
         </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end"><FontAwesomeIcon icon={faUserCircle} /></Navbar.Collapse>
