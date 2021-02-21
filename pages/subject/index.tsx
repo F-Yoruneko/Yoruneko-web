@@ -50,12 +50,11 @@ const Index = () => {
       const userRef = firestore.collection('user').doc(userId);
       const user = await userRef.get();
       const subjects = user.data()?.subjects ?? [];
-      const updateSubjects = subjectIds.map((x) => ({
-        subject: firestore.collection('subject').doc(x),
-        evaluated: false
-      }));
+      const updateSubjects = subjectIds.map((x) => (
+        firestore.collection('subject').doc(x)
+      ));
       await userRef.update({
-        subjects: _.union(subjects, updateSubjects),
+        subjects: _.union(subjects, updateSubjects)
       });
       console.log(updateSubjects);
     } catch (error) {
