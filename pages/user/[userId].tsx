@@ -17,11 +17,14 @@ interface Subject {
   term: string;
   university: string;
   url: string;
+  channelId: string;
+  evaluated: boolean;
 }
 
 interface User {
   id?: string;
   name: string;
+  email: string;
   university: string;
   subjects: any[];
 }
@@ -105,6 +108,7 @@ const Index = () => {
             return {
               id: doc.id,
               name: doc.data().name || '',
+              email: doc.data().email ||  '',
               university: doc.data().university,
               subjects: doc.data().subjects || [],
             };
@@ -175,6 +179,17 @@ const Index = () => {
     }
   )}
 
+  const handleClick = async(channelId:string) => {
+    try {
+      const res = await fetch(`/api/slack/invite?email=${user?.email}&channelId=${channelId}`);
+      const data = await res.text();
+      alert(data);
+      }catch (error) {
+        console.log(error)
+        alert("ネットワークエラーが発生しました。");
+      }
+  }
+
   return (
     <div className="container">
       <h1>{user?.name || ''}のマイページ</h1>
@@ -186,7 +201,7 @@ const Index = () => {
             <th>教員</th>
             <th>ターム</th>
             <th>単位数</th>
-            <th>LINEチャット URL</th>
+            <th>Slack</th>
             <th>履修評価</th>
           </tr>
         </thead>
@@ -198,9 +213,8 @@ const Index = () => {
               <td>{mySubject.professor}</td>
               <td>{mySubject.term}</td>
               <td>{mySubject.credit}</td>
-              <td>{mySubject.url}</td>
+              <td><Button onClick={() => handleClick(mySubject.channelId)}>Slackチャンネル参加</Button></td>
               <td>
-                <p className="evaluate"> {mySubject.easy} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "easy"
@@ -211,7 +225,6 @@ const Index = () => {
                   {' '}
                   楽単{' '}
                 </Button>
-                <p className="evaluate"> {mySubject.difficult} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "difficult"
@@ -222,7 +235,6 @@ const Index = () => {
                   {' '}
                   難しい{' '}
                 </Button>
-                <p className="evaluate"> {mySubject.interesting} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "interesting"
@@ -233,7 +245,6 @@ const Index = () => {
                   {' '}
                   面白い{' '}
                 </Button>
-                <p className="evaluate"> {mySubject.boring} </p>{' '}
                 <Button
                   id={mySubject.id}
                   value = "boring"
