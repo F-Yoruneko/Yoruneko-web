@@ -193,7 +193,7 @@ const Index = () => {
                 <Button
                   id={mySubject.id}
                   value = "easy"
-                  className="btn-sm btn-primary inline-block"
+                  className="eval-btn btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
                   disabled = {mySubject.evaluated}
                 >
@@ -203,7 +203,7 @@ const Index = () => {
                 <Button
                   id={mySubject.id}
                   value = "difficult"
-                  className="btn-sm btn-primary inline-block"
+                  className="eval-btn btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
                   disabled = {mySubject.evaluated}
                 >
@@ -213,7 +213,7 @@ const Index = () => {
                 <Button
                   id={mySubject.id}
                   value = "interesting"
-                  className="btn-sm btn-primary inline-block"
+                  className="eval-btn btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
                   disabled = {mySubject.evaluated}
                 >
@@ -223,7 +223,7 @@ const Index = () => {
                 <Button
                   id={mySubject.id}
                   value = "boring"
-                  className="btn-sm btn-primary inline-block"
+                  className="eval-btn btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
                   disabled = {mySubject.evaluated}
                 >

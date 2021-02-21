@@ -12,6 +12,9 @@ body {
 }
 
 .evaluate{
-  margin: 0 10px;
+  margin: 0 5px;
   padding: 5px;
+}
+.eval-btn{
+  margin: 0 10px;
 }
