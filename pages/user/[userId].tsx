@@ -55,10 +55,9 @@ const Index = () => {
       const subjectList = user.subjects.map((item) => item);
       const subjects = [];
       for (const sub of subjectList) {
-        const data = await sub.subject.get();
+        const data = await sub.get();
         subjects.push({
           ...data.data(),
-          evaluated: sub.evaluated,
           id: data.id,
         });
       }
@@ -195,7 +194,7 @@ const Index = () => {
                   value = "easy"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
-                  disabled = {mySubject.evaluated}
+                  disabled = {false}
                 >
                   {' '}
                   楽単だぞ{' '}
@@ -205,7 +204,7 @@ const Index = () => {
                   value = "difficult"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
-                  disabled = {mySubject.evaluated}
+                  disabled = {false}
                 >
                   {' '}
                   難しい！{' '}
@@ -215,7 +214,7 @@ const Index = () => {
                   value = "interesting"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
-                  disabled = {mySubject.evaluated}
+                  disabled = {false}
                 >
                   {' '}
                   面白い！{' '}
@@ -225,7 +224,7 @@ const Index = () => {
                   value = "boring"
                   className="btn-sm btn-primary inline-block"
                   onClick = {handleAddEvaluation}
-                  disabled = {mySubject.evaluated}
+                  disabled = {false}
                 >
                   {' '}
                   つまらん{' '}
