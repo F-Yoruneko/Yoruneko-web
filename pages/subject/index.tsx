@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Form, Button, ArrowRight} from 'react-bootstrap';
+import { Table, Form, Button, Modal, ArrowRight} from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { firestore } from '@/lib/firebase';
+import 'whatwg-fetch';
 
 const userId = '086Y37hyXB70txgcKaKh';
 
@@ -19,7 +20,7 @@ type Subject = {
   difficult: number;
   professor: string;
   term: string;
-  credits:number;
+  credit:number;
 };
 
 var _ = require('lodash');
@@ -91,13 +92,16 @@ const Index = () => {
   console.log(subjects);
   console.log(subjectIds);
 
+  const [show, setShow] = useState(true);
+  const handleClose = () => setShow(false);
+
   return (
 
     <div className="container">
       <h1>科目一覧</h1>
       <Form.Group>
         <Form.Label>学部名 検索</Form.Label>
-        <Form.Control type="text" onChange={handleFilter}></Form.Control>
+        <Form.Control type="text" placeholder="学部名を入力してください" onChange={handleFilter}></Form.Control>
       </Form.Group>
 
       <div>
@@ -158,6 +162,34 @@ const Index = () => {
             登録
           </Button>
         </Link>
+
+        <>
+          <Modal　size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>CampasHackへようこそ！</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            CampasHackは、大学生の活発なキャンパスライフを応援します。
+            <br></br>
+            最新の履修情報やコミュニケーションツールを通した交流が可能です。
+
+            <hr></hr>
+              👋 Slackのワークスペースに招待しました！
+              <br></br>
+              以下のリンクから参加してください。
+              <br></br>
+              <a>https://join.slack.com/t/yoruneko-university/shared_invite/zt-mq6x6vwk-oDtodBiVEWO1BoaodpA8pA</a>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
         
       </div>
 
