@@ -57,10 +57,14 @@ const Index = () => {
       for(var elem of updateSubjects){
         newSubjects.add(elem);
       }
+      var newSubjectList = []
+      for(var subject of newSubjects){
+        newSubjectList.push(subject);
+      } 
+      console.log(newSubjectList);
       await userRef.update({
-        subjects: newSubjects
+        subjects: newSubjectList
       });
-      console.log(updateSubjects);
     } catch (error) {
       console.log(error);
     }
