@@ -49,31 +49,6 @@ const Index = () => {
   //履修情報
   const [mySubjects, setMySubjects] = useState<Subject[]>([]);
 
-  // //init
-  // useEffect(() => {
-  //     //creadit情報
-  //   firestore.collection('mySubjects').add({
-  //     accountId: userId,
-  //     name: "線形代数",
-  //     value: Number(5),
-  //   } as mySubjects);
-  //   console.log(mySubjectss)
-  // }, [])
-
-  // useEffect(() => {
-  //   firestore.collection('mySubjects').onSnapshot((collection) => {
-  //     const data = collection.docs
-  //       .filter((doc) => doc.data().accountId === userId)
-  //       .map((doc) => ({
-  //       id: doc.id,
-  //       name: doc.data().name || '',
-  //       accountId: doc.data().accountId || '',
-  //       value: doc.data().value || ''
-  //     }));
-  //     setMySubjects(data);
-  //   });
-  // }, []);
-
   const getSubjects = async () => {
     if (user) {
       console.log(user);
@@ -223,7 +198,7 @@ const Index = () => {
                   disabled = {mySubject.evaluated}
                 >
                   {' '}
-                  楽単{' '}
+                  楽単だぞ{' '}
                 </Button>
                 <Button
                   id={mySubject.id}
@@ -233,7 +208,7 @@ const Index = () => {
                   disabled = {mySubject.evaluated}
                 >
                   {' '}
-                  難しい{' '}
+                  難しい！{' '}
                 </Button>
                 <Button
                   id={mySubject.id}
@@ -243,7 +218,7 @@ const Index = () => {
                   disabled = {mySubject.evaluated}
                 >
                   {' '}
-                  面白い{' '}
+                  面白い！{' '}
                 </Button>
                 <Button
                   id={mySubject.id}
@@ -253,7 +228,7 @@ const Index = () => {
                   disabled = {mySubject.evaluated}
                 >
                   {' '}
-                  つまらない{' '}
+                  つまらん{' '}
                 </Button>
               </td>
             </tr>
